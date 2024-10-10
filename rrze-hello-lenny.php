@@ -80,7 +80,7 @@ function lenny_block_render_callback($attributes)
     $quote = esc_html__('Wuff!', 'rrze-hello-lenny');
     return '<blockquote class="rrze-hello-lenny shortcode" lang="de">
                 <p>
-                    <span class="wuff-ucfirst">' . esc_html($quote) . '</span> <span class="wuff-ucfirst wuff-uppercase">' . esc_html($quote) . '</span>
+                    <span class="wuff-ucfirst">' . $quote . '</span> <span class="wuff-ucfirst wuff-uppercase">' . $quote . '</span>
                 </p>
                 <cite>&#128054; Lenny</cite>
             </blockquote>';
