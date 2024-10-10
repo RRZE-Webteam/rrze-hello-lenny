@@ -1,0 +1,24 @@
+.rrze-hello-lenny {
+    &.shortcode {
+        border-style: solid;
+    }
+    &.block {
+        border-style: dotted;
+    }
+    .wuff-uppercase {
+        text-transform: uppercase;
+    }
+
+    .wuff-lowercase {
+        text-transform: uppercase;
+    }
+    .wuff-small {
+        font-size: 0.8rem;
+    }
+    .wuff-large {
+        font-size: 1.5rem;
+    }
+    .wuff-xlarge {
+        font-size: 2rem;
+    }
+}
