@@ -4,6 +4,7 @@ namespace RRZE\HelloLenny;
 
 defined('ABSPATH') || exit;
 
+use RRZE\HelloLenny\Config;
 use RRZE\HelloLenny\Shortcode;
 use RRZE\HelloLenny\BlockEditor;
 
@@ -44,8 +45,10 @@ class Main
         add_action('enqueue_block_assets', [$this, 'enqueueAssets']);
 
         // Initialize Shortcode and BlockEditor
-        new Shortcode($this->pluginFile);
-        new BlockEditor($this->pluginFile);
+        $config = new Config($this->pluginFile);
+        $default_attributes = $config::getDefaultAttributes();
+        $shortcode = new Shortcode($default_attributes);
+        $blockeditor = new BlockEditor($default_attributes);
     }
 
     /**

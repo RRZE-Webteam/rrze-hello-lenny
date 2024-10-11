@@ -2,9 +2,9 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 module.exports = {
     ...defaultConfig,
     entry: {
-        'block': './src/block.js',
-        'editor': './src/editor.scss',
-        'frontend': './src/frontend.scss'
+        'block': './src/js/block.js',
+        'editor': './src/sass/editor.scss',
+        'frontend': './src/sass/frontend.scss'
     },
     output: {
         path: __dirname + '/build/',
