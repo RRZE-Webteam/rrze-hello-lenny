@@ -17,9 +17,8 @@ namespace RRZE\HelloLenny;
  * Text Domain:     rrze-hello-lenny
  */
 
- 
-defined('ABSPATH') || exit;
 
+defined('ABSPATH') || exit;
 
 // Plugin requirements
 const REQUIRED_PHP_VERSION = '8.2';
