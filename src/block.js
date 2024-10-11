@@ -15,13 +15,13 @@
                     {},
                     el(
                         "span",
-                        { className: "wuff-ucfirst" },
+                        { className: "wouf-ucfirst" },
                         wp.i18n.__("Wuff!", "rrze-hello-lenny")
                     ),
                     " ",
                     el(
                         "span",
-                        { className: "wuff-ucfirst wuff-uppercase" },
+                        { className: "wouf-ucfirst wouf-uppercase" },
                         wp.i18n.__("Wuff!", "rrze-hello-lenny")
                     )
                 ),

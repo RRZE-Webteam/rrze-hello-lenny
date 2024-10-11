@@ -20,6 +20,30 @@ if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+add_action('init', __NAMESPACE__ . '\lenny_register_assets');
+add_shortcode('rrze-hello-lenny', __NAMESPACE__ . '\lenny_shortcode');
+add_action('init', __NAMESPACE__ . '\lenny_block_register_block');
+add_action('enqueue_block_assets', __NAMESPACE__ . '\lenny_register_assets');
+
+
+// Register the assets
+function lenny_register_assets() {
+    wp_register_script(
+        'lenny-random-bark',
+        plugins_url('src/random-bark.js', __FILE__),
+        ['jquery'], // Add jQuery as a dependency
+        filemtime(plugin_dir_path(__FILE__) . 'src/random-bark.js'),
+        true
+    );
+
+    wp_register_style(
+        'lenny-block-style',
+        plugins_url('build/frontend.css', __FILE__),
+        [],
+        filemtime(plugin_dir_path(__FILE__) . 'build/frontend.css')
+    );
+}
+
 // Generate the output
 function generate_wuff_output() {
     $lang = get_bloginfo('language');
@@ -27,12 +51,12 @@ function generate_wuff_output() {
     $numWuffs = rand(1, 4);
 
     $cssClasses = [
-        'wuff-ucfirst',
-        'wuff-uppercase',
-        'wuff-lowercase',
-        'wuff-small',
-        'wuff-large',
-        'wuff-xlarge'
+        'wouf-ucfirst',
+        'wouf-uppercase',
+        'wouf-lowercase',
+        'wouf-small',
+        'wouf-large',
+        'wouf-xlarge'
     ];
 
     $output = '<blockquote class="rrze-hello-lenny" lang="' . esc_attr($lang) . '"><p>';
@@ -63,9 +87,10 @@ function generate_wuff_output() {
 // Shortcode Functionality for Classic Editor
 function lenny_shortcode()
 {
+    wp_enqueue_script('lenny-random-bark');
+
     return generate_wuff_output();
 }
-add_shortcode('lenny_quote', __NAMESPACE__ . '\lenny_shortcode');
 
 // Register Gutenberg Block for Block Editor
 function lenny_block_register_block()
@@ -107,7 +132,6 @@ function lenny_block_register_block()
         'render_callback' => __NAMESPACE__ . '\lenny_block_render_callback',
     ]);
 }
-add_action('init', __NAMESPACE__ . '\lenny_block_register_block');
 
 // Server-side Rendering of the Block
 function lenny_block_render_callback($attributes)

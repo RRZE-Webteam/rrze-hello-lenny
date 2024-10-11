@@ -27,7 +27,7 @@ Wählen Sie den Block "Lenny Quote" aus, um Lenny in Ihren Beitrag einzufügen.
 
 ## Verwendung als Shortcode
 
-Sie können den Shortcode `[hello-lenny]` verwenden, um Lenny an einer beliebigen Stelle in Ihren Inhalten einzufügen.
+Sie können den Shortcode `[rrze-hello-lenny]` verwenden, um Lenny an einer beliebigen Stelle in Ihren Inhalten einzufügen.
 
 ### Beispiele
 
