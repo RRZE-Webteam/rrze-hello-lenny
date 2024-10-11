@@ -5,14 +5,14 @@ on:
     branches:
       - main
     types:
-      - closed
+      - synchronize
 
 permissions:
   contents: write
 
 jobs:
   update-version:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'dev'
+    if: github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'dev'
     runs-on: ubuntu-latest
 
     steps:
