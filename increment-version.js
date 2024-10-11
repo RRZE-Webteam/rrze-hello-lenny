@@ -27,14 +27,18 @@ const newVersion = incrementVersion(oldVersion);
 packageJson.version = newVersion;
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8');
 
-// Update version in README.md
+// Update Stable tag in README.md
 if (fs.existsSync(readmePath)) {
-    updateVersionInFile(readmePath, oldVersion, newVersion);
+    let content = fs.readFileSync(readmePath, 'utf8');
+    content = content.replace(/Stable tag:\s*\d+\.\d+\.\d+/g, `Stable tag: ${newVersion}`);
+    fs.writeFileSync(readmePath, content, 'utf8');
 }
 
 // Update version in rrze-hello-lenny.php
 if (fs.existsSync(pluginFilePath)) {
-    updateVersionInFile(pluginFilePath, oldVersion, newVersion);
+    let content = fs.readFileSync(pluginFilePath, 'utf8');
+    content = content.replace(/Version:\s*\d+\.\d+\.\d+/g, `Version: ${newVersion}`);
+    fs.writeFileSync(pluginFilePath, content, 'utf8');
 }
 
 console.log(`Version updated from ${oldVersion} to ${newVersion}`);
