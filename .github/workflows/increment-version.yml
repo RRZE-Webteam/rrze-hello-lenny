@@ -1,0 +1,52 @@
+name: Increment Version
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Determine the branch and increment type
+        id: increment
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "type=minor" >> $GITHUB_ENV
+          else
+            echo "type=patch" >> $GITHUB_ENV
+          fi
+
+      - name: Increment version
+        run: node increment-version.js ${{ env.type }}
+
+      - name: Commit version changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "Incremented ${{ env.type }} version to $(cat package.json | jq -r .version)"
+      
+      - name: Push changes to both main and dev branches
+        run: |
+          git push origin main
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            git push origin main:dev
+          fi
