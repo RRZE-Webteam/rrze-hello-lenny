@@ -6,9 +6,12 @@ defined('ABSPATH') || exit;
 
 class BlockEditor
 {
-    public function __construct($pluginFile)
+    protected $defaultAttributes;
+
+    public function __construct($defaultAttributes)
     {
-        add_action('init', [$this,  'registerBlock']);
+        $this->defaultAttributes = $defaultAttributes;
+        add_action('init', [$this, 'registerBlock']);
         add_action('enqueue_block_assets', [$this, 'enqueueBlockAssets']);
     }
 
@@ -18,7 +21,7 @@ class BlockEditor
             'editor_script' => 'lenny-block-editor-script',
             'editor_style' => 'lenny-block-editor-style',
             'style' => 'lenny-block-style',
-            'render_callback' => [$this,  'renderBlock']
+            'render_callback' => [$this, 'renderBlock']
         ]);
     }
 
@@ -31,8 +34,13 @@ class BlockEditor
 
     public function renderBlock($attributes)
     {
+        // Sanitize attributes
+        $attributes['css_classes'] = !empty($attributes['cssClasses']) ? sanitize_hex_color($attributes['cssClasses']) : '';
+        $attributes['background_color'] = !empty($attributes['backgroundColor']) ? sanitize_hex_color($attributes['backgroundColor']) : '';
+        $attributes['border_color'] = !empty($attributes['borderColor']) ? sanitize_hex_color($attributes['borderColor']) : '';
+    
         wp_enqueue_script('lenny-random-bark');
 
-        return Shortcode::generateWuffOutput();
+        return Shortcode::generateWuffOutput($attributes);
     }
 }

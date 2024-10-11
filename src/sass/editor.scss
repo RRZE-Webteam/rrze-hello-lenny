@@ -5,6 +5,14 @@
     &.block {
         border-style: dotted;
     }
+    .wouf-ucfirst {
+        text-transform: lowercase;
+    }
+    
+    .wouf-ucfirst::first-letter {
+        text-transform: uppercase;
+    }
+    
     .wouf-uppercase {
         text-transform: uppercase;
     }
