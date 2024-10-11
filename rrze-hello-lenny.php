@@ -17,7 +17,6 @@ namespace RRZE\HelloLenny;
  * Text Domain:     rrze-hello-lenny
  */
 
-
 defined('ABSPATH') || exit;
 
 // Plugin requirements
