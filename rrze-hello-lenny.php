@@ -16,7 +16,6 @@ namespace RRZE\HelloLenny;
  * Domain Path:     /languages
  * Text Domain:     rrze-hello-lenny
  */
-
  
 defined('ABSPATH') || exit;
 
