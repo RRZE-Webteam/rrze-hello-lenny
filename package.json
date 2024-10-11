@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "build/index.js",
   "scripts": {
-    "build-css": "node-sass --output-style compressed src/sass/ -o assets/css/",
-    "watch-css": "node-sass --watch src/sass/ -o assets/css/",
+    "build-css": "node-sass --output-style compressed src/sass/ -o build/css/",
+    "watch-css": "node-sass --watch src/sass/ -o build/css/",
     "build": "npm run build-css && wp-scripts build",
     "start": "npm run watch-css && wp-scripts start"
   },

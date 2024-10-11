@@ -61,9 +61,9 @@ class Main
         // Register scripts and styles
         wp_register_script(
             'lenny-random-bark',
-            plugins_url('src/random-bark.js', plugin_basename($this->pluginFile)),
+            plugins_url('src/js/random-bark.js', plugin_basename($this->pluginFile)),
             ['jquery'],
-            file_exists(plugin_dir_path($this->pluginFile) . 'src/random-bark.js') ? filemtime(plugin_dir_path($this->pluginFile) . 'src/random-bark.js') : $pluginVersion,
+            file_exists(plugin_dir_path($this->pluginFile) . 'src/js/random-bark.js') ? filemtime(plugin_dir_path($this->pluginFile) . 'src/js/random-bark.js') : $pluginVersion,
             true
         );
 
