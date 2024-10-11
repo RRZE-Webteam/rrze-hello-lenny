@@ -1,50 +1,38 @@
-# Copyright (C) 2024 RRZE-Webteam
-# This file is distributed under the GNU General Public License v2.
 msgid ""
 msgstr ""
-"Project-Id-Version: RRZE Hello Lenny 1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/rrze-hello-"
-"lenny\n"
-"POT-Creation-Date: 2024-10-10T15:47:58+00:00\n"
-"PO-Revision-Date: 2024-10-10 17:56+0200\n"
+"Project-Id-Version: RRZE Hello Lenny\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-11 06:56+0000\n"
+"PO-Revision-Date: 2024-10-11 06:57+0000\n"
 "Last-Translator: \n"
-"Language-Team: \n"
-"Language: de_DE@formal\n"
+"Language-Team: German (Formal)\n"
+"Language: de_DE_formal\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
-"X-Domain: rrze-hello-lenny\n"
-
-#. Plugin Name of the plugin
-#: rrze-hello-lenny.php
-msgid "RRZE Hello Lenny"
-msgstr "RRZE Hello Lenny"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
+"X-Domain: rrze-hello-lenny"
 
 #. Description of the plugin
-#: rrze-hello-lenny.php
 msgid ""
 "A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg "
 "block."
 msgstr ""
-"Ein Plugin inspiriert von Hello Dolly, mit sowohl einem Shortcode als "
-"auch einem Gutenberg-Block."
-
-#. Author of the plugin
-#: rrze-hello-lenny.php
-msgid "RRZE-Webteam"
-msgstr "RRZE-Webteam"
 
 #. Author URI of the plugin
-#: rrze-hello-lenny.php
 msgid "https://blogs.fau.de/webworking/"
-msgstr "https://blogs.fau.de/webworking/"
+msgstr ""
 
-#: rrze-hello-lenny.php:26 rrze-hello-lenny.php:78 src/block.js:19
-#: src/block.js:25
-msgid "Wuff!"
-msgstr "Wau!"
+#. Name of the plugin
+msgid "RRZE Hello Lenny"
+msgstr ""
 
-#: src/block.js:6
-msgid "Lenny Quote"
-msgstr "Lenny Zitat"
+#. Author of the plugin
+msgid "RRZE-Webteam"
+msgstr ""
+
+#: rrze-hello-lenny.php:26 rrze-hello-lenny.php:81
+msgid "Wouf!"
+msgstr "Wuff!"

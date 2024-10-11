@@ -23,7 +23,7 @@ if (! defined('ABSPATH')) {
 // Shortcode Functionality for Classic Editor
 function lenny_shortcode()
 {
-    $quote = esc_html__('Wuff!', 'rrze-hello-lenny');
+    $quote = esc_html__('Wouf!', 'rrze-hello-lenny');
     return '<blockquote class="rrze-hello-lenny shortcode" lang="de">
                 <p>
                     <span class="wuff-ucfirst">' . $quote . '</span> <span class="wuff-ucfirst wuff-uppercase">' . $quote . '</span>
@@ -78,7 +78,7 @@ add_action('init', __NAMESPACE__ . '\lenny_block_register_block');
 // Server-side Rendering of the Block
 function lenny_block_render_callback($attributes)
 {
-    $quote = esc_html__('Wuff!', 'rrze-hello-lenny');
+    $quote = esc_html__('Wouf!', 'rrze-hello-lenny');
     return '<blockquote class="rrze-hello-lenny shortcode" lang="de">
                 <p>
                     <span class="wuff-ucfirst">' . $quote . '</span> <span class="wuff-ucfirst wuff-uppercase">' . $quote . '</span>
