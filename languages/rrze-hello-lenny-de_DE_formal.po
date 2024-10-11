@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: RRZE Hello Lenny\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-11 06:56+0000\n"
-"PO-Revision-Date: 2024-10-11 06:57+0000\n"
-"Last-Translator: \n"
-"Language-Team: German (Formal)\n"
+"PO-Revision-Date: 2024-10-11 15:52+0000\n"
+"Last-Translator: RRZE Webteam <webmaster@fau.de>\n"
+"Language-Team: Deutsch (Sie)\n"
 "Language: de_DE_formal\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -20,19 +20,52 @@ msgid ""
 "A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg "
 "block."
 msgstr ""
+"Ein Plugin, inspiriert von Hello Dolly, das sowohl einen Shortcode als auch "
+"einen Gutenberg-Block verwendet."
 
 #. Author URI of the plugin
 msgid "https://blogs.fau.de/webworking/"
-msgstr ""
+msgstr "https://blogs.fau.de/webworking/"
+
+#. URI of the plugin
+msgid "https://github.com/RRZE-Webteam/rrze-hello-lenny/"
+msgstr "https://github.com/RRZE-Webteam/rrze-hello-lenny/"
+
+#. 1: The plugin name, 2: The error string.
+#: rrze-hello-lenny.php:104 rrze-hello-lenny.php:135
+#, php-format
+msgid "Plugins: %1$s: %2$s"
+msgstr "Plugins: %1$s: %2$s"
 
 #. Name of the plugin
 msgid "RRZE Hello Lenny"
-msgstr ""
+msgstr "RRZE Hallo Lenny"
 
 #. Author of the plugin
-msgid "RRZE-Webteam"
-msgstr ""
+#| msgid "RRZE-Webteam"
+msgid "RRZE Webteam"
+msgstr "RRZE-Webteam"
 
-#: rrze-hello-lenny.php:26 rrze-hello-lenny.php:81
+#. 1: Server PHP version number, 2: Required PHP version number.
+#: rrze-hello-lenny.php:78
+#, php-format
+msgid ""
+"The server is running PHP version %1$s. The Plugin requires at least PHP "
+"version %2$s."
+msgstr ""
+"Auf dem Server läuft PHP Version %1$s. Das Plugin erfordert mindestens PHP "
+"Version %2$s."
+
+#. 1: Server WordPress version number, 2: Required WordPress version number.
+#: rrze-hello-lenny.php:85
+#, php-format
+msgid ""
+"The server is running WordPress version %1$s. The Plugin requires at least "
+"WordPress version %2$s."
+msgstr ""
+"Auf dem Server läuft WordPress Version %1$s. Das Plugin erfordert mindestens "
+"WordPress Version %2$s."
+
+#: includes/Shortcode.php:45
 msgid "Wouf!"
 msgstr "Wuff!"
