@@ -19,6 +19,7 @@ namespace RRZE\HelloLenny;
 
 defined('ABSPATH') || exit;
 
+
 // Plugin requirements
 const REQUIRED_PHP_VERSION = '8.2';
 const REQUIRED_WP_VERSION = '6.6';
