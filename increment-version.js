@@ -10,10 +10,10 @@ const pluginFilePath = path.resolve(__dirname, 'rrze-hello-lenny.php');
 function incrementVersion(version, type) {
     const parts = version.split('.');
     if (type === 'minor') {
-        parts[1] = parseInt(parts[1], 10) + 1;
-        parts[2] = 0; // Reset patch version to 0 when incrementing minor version
+        parts[1] = parseInt(parts[1], 10) + 1; // Increment the minor version
+        parts[2] = 0; // Reset the patch version to 0
     } else if (type === 'patch') {
-        parts[2] = parseInt(parts[2], 10) + 1; // Increment patch version
+        parts[2] = parseInt(parts[2], 10) + 1; // Increment the patch version
     } else {
         console.error(`Unknown version increment type: ${type}`);
         process.exit(1);
