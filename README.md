@@ -15,6 +15,8 @@ Domain Path: /languages
 
 Ein Plugin, das Lenny in WordPress bringt – mit Shortcode und Block.
 
+Diese `README.md`-Datei dient als Vorlage: [GitHub Issue #8](https://github.com/RRZE-Webteam/rrze-hello-lenny/issues/8)
+
 # RRZE Hello Lenny
 
 Dieses Plugin ist von dem berühmten "Hello Dolly" Plugin inspiriert und bringt den Hund Lenny in Ihre WordPress-Seite. Es unterstützt sowohl einen Shortcode als auch einen Gutenberg-Block.
