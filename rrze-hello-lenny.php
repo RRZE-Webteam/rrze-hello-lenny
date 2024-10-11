@@ -55,7 +55,8 @@ function lenny_block_register_block()
         'lenny-block-editor-script',
         plugins_url('build/block.js', __FILE__),
         ['wp-blocks', 'wp-element', 'wp-editor'],
-        filemtime(plugin_dir_path(__FILE__) . 'build/block.js')
+        filemtime(plugin_dir_path(__FILE__) . 'build/block.js'),
+        true        
     );
 
     wp_register_style(
