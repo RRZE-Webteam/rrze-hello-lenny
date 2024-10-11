@@ -15,27 +15,40 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v4 # Updated to v4
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4 # Updated to v4
+        uses: actions/setup-node@v4
         with:
-          node-version: '20' # Explicitly specifying Node.js 20
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install || { echo "Error: npm install failed"; exit 1; }
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Debug - Show branch information
+        run: |
+          echo "Branch: ${{ github.ref }}"
 
       - name: Determine the branch and increment type
         id: increment
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "type=minor" >> $GITHUB_ENV
+            echo "Increment type set to minor."
           else
             echo "type=patch" >> $GITHUB_ENV
+            echo "Increment type set to patch."
           fi
 
+      - name: Debug - Show increment type
+        run: echo "Increment type is ${{ env.type }}"
+
       - name: Increment version
-        run: node increment-version.js ${{ env.type }}
+        run: |
+          node increment-version.js ${{ env.type }} || { echo "Error: increment-version.js failed"; exit 1; }
 
       - name: Commit version changes
         run: |
@@ -46,7 +59,7 @@ jobs:
 
       - name: Push changes to both main and dev branches
         run: |
-          git push origin main
+          git push origin ${{ github.ref }} || { echo "Error: Push to ${{ github.ref }} failed"; exit 1; }
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            git push origin main:dev
+            git push origin main:dev || { echo "Error: Push to dev branch failed"; exit 1; }
           fi
