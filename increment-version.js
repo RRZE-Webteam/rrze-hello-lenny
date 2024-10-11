@@ -6,10 +6,15 @@ const packageJsonPath = path.resolve(__dirname, 'package.json');
 const readmePath = path.resolve(__dirname, 'README.md');
 const pluginFilePath = path.resolve(__dirname, 'rrze-hello-lenny.php');
 
-// Function to increment the patch version
-function incrementVersion(version) {
+// Function to increment the version based on the type
+function incrementVersion(version, type) {
     const parts = version.split('.');
-    parts[2] = parseInt(parts[2]) + 1;
+    if (type === 'minor') {
+        parts[1] = parseInt(parts[1]) + 1;
+        parts[2] = 0; // Reset patch version to 0 when incrementing minor version
+    } else {
+        parts[2] = parseInt(parts[2]) + 1; // Increment patch version
+    }
     return parts.join('.');
 }
 
@@ -20,10 +25,13 @@ function updateVersionInFile(filePath, oldVersion, newVersion) {
     fs.writeFileSync(filePath, updatedContent, 'utf8');
 }
 
+// Get the version increment type from the command line arguments
+const incrementType = process.argv[2] || 'patch';
+
 // Read and update package.json
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 const oldVersion = packageJson.version;
-const newVersion = incrementVersion(oldVersion);
+const newVersion = incrementVersion(oldVersion, incrementType);
 packageJson.version = newVersion;
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8');
 
