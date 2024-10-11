@@ -1,3 +1,5 @@
+// Increments version numbers in dev and main
+
 const fs = require('fs');
 const path = require('path');
 
