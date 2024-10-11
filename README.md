@@ -21,7 +21,7 @@ Dieses Plugin ist von dem berühmten "Hello Dolly" Plugin inspiriert und bringt 
 
 ## Verwendung als Block
 
-Wählen Sie den Block "Hello Lenny RRZE" aus, um Lenny in Ihren Beitrag einzufügen.
+Wählen Sie den Block "Lenny Quote" aus, um Lenny in Ihren Beitrag einzufügen.
 
 ## Verwendung als Shortcode
 
@@ -31,7 +31,3 @@ Sie können den Shortcode `[hello-lenny]` verwenden, um Lenny an einer beliebige
 
 ```html
 [hello-lenny]
-
-[hello-lenny style="bold"]
-
-[hello-lenny size="large"]
