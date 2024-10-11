@@ -3,73 +3,89 @@
 namespace RRZE\HelloLenny;
 
 /**
- * Plugin Name:     RRZE Hello Lenny
- * Plugin URI:      https://github.com/RRZE-Webteam/rrze-hello-lenny/
- * Description:     A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg block.
- * Version: 1.1.1
- * Requires at least: 6.6
- * Requires PHP:      8.2
- * Author:          RRZE Webteam
- * Author URI:      https://blogs.fau.de/webworking/
- * License:         GNU General Public License v2
- * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
- * Domain Path:     /languages
- * Text Domain:     rrze-hello-lenny
+ * Plugin Name:         RRZE Hello Lenny
+ * Plugin URI:          https://github.com/RRZE-Webteam/rrze-hello-lenny/
+ * Description:         A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg block.
+ * Version:             1.1.1
+ * Requires at least:   6.6
+ * Requires PHP:        8.2
+ * Author:              RRZE Webteam
+ * Author URI:          https://blogs.fau.de/webworking/
+ * License:             GNU General Public License v2
+ * License URI:         http://www.gnu.org/licenses/gpl-2.0.html
+ * Domain Path:         /languages
+ * Text Domain:         rrze-hello-lenny
  */
 
-
+// Prevent direct access to this file.
 defined('ABSPATH') || exit;
 
-// Plugin requirements
+// Plugin requirements.
 const REQUIRED_PHP_VERSION = '8.2';
 const REQUIRED_WP_VERSION = '6.6';
 
-// Autoload classes
+/**
+ * SPL Autoloader (PSR-4).
+ * @param string $class The fully-qualified class name.
+ * @return void
+ */
 spl_autoload_register(function ($class) {
     $prefix = __NAMESPACE__;
-    $base_dir = __DIR__ . '/includes/';
+    $baseDir = __DIR__ . '/includes/';
 
     $len = strlen($prefix);
     if (strncmp($prefix, $class, $len) !== 0) {
         return;
     }
 
-    $relative_class = substr($class, $len);
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    $relativeClass = substr($class, $len);
+    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
 
     if (file_exists($file)) {
         require $file;
     }
 });
 
-
-// Activation and deactivation hooks
+// Register activation and deactivation hooks.
 register_activation_hook(__FILE__, __NAMESPACE__ . '\activate');
 register_deactivation_hook(__FILE__, __NAMESPACE__ . '\deactivate');
 
-// Loaded action hook
+// Loaded action hook.
 add_action('plugins_loaded', __NAMESPACE__ . '\onLoaded');
 
 /**
- * Load text domain for translations.
+ * Load the plugin text domain for translation.
  */
-function loadTextDomain()
+function loadTextdomain()
 {
     load_plugin_textdomain('rrze-hello-lenny', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
 /**
- * Check system requirements.
+ * System requirements verification.
+ * @return string Return an error message or an empty string.
  */
-function system_requirements()
+function systemRequirements(): string
 {
+    global $wp_version;
+    // Strip off any -alpha, -RC, -beta, -src suffixes.
+    list($wpVersion) = explode('-', $wp_version);
+    $phpVersion = phpversion();
     $error = '';
-    if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<')) {
-        /* translators: 1: current PHP version, 2: required PHP version */
-        $error = sprintf(__('The server is running PHP version %1$s. The Plugin requires at least PHP version %2$s.', 'rrze-typesettings'), PHP_VERSION, RRZE_PHP_VERSION);
-    } elseif (version_compare($GLOBALS['wp_version'], REQUIRED_WP_VERSION, '<')) {
-        /* translators: 1: current WordPress version, 2: required WordPress version */
-        $error = sprintf(__('The server is running WordPress version %1$s. The Plugin requires at least WordPress version %2$s.', 'rrze-typesettings'), $GLOBALS['wp_version'], RRZE_WP_VERSION);
+    if (!is_php_version_compatible(REQUIRED_PHP_VERSION)) {
+        $error = sprintf(
+            /* translators: 1: Server PHP version number, 2: Required PHP version number. */
+            __('The server is running PHP version %1$s. The Plugin requires at least PHP version %2$s.', 'rrze-hello-lenny'),
+            $phpVersion,
+            REQUIRED_PHP_VERSION
+        );
+    } elseif (!is_wp_version_compatible(REQUIRED_WP_VERSION)) {
+        $error = sprintf(
+            /* translators: 1: Server WordPress version number, 2: Required WordPress version number. */
+            __('The server is running WordPress version %1$s. The Plugin requires at least WordPress version %2$s.', 'rrze-hello-lenny'),
+            $wpVersion,
+            REQUIRED_WP_VERSION
+        );
     }
     return $error;
 }
@@ -77,18 +93,20 @@ function system_requirements()
 /**
  * Activation hook.
  */
-function activate()
+function activation()
 {
-    // Load text domain
-    loadTextDomain();
-
-    // Check system requirements
-    if ($error = system_requirements()) {
+    loadTextdomain();
+    if ($error = systemRequirements()) {
         deactivate_plugins(plugin_basename(__FILE__));
-        wp_die(esc_html($error));
+        wp_die(
+            sprintf(
+                /* translators: 1: The plugin name, 2: The error string. */
+                __('Plugins: %1$s: %2$s', 'rrze-hello-lenny'),
+                plugin_basename(__FILE__),
+                $error
+            )
+        );
     }
-
-    // Other activation tasks can be added here, e.g., flush rewrite rules
 }
 
 /**
@@ -96,28 +114,35 @@ function activate()
  */
 function deactivate()
 {
-    // Any deactivation tasks can be added here
+    // Any deactivation tasks can be added here.
 }
 
 /**
- * Main plugin loaded function.
+ * Execute on 'plugins_loaded' API/action.
  */
 function onLoaded()
 {
-    // Load text domain
-    loadTextDomain();
-
-    // Check system requirements
-    if ($error = system_requirements()) {
-        $pluginName = get_plugin_data(__FILE__)['Name'];
-        $tag = is_network_admin() ? 'network_admin_notices' : 'admin_notices';
-        add_action($tag, function () use ($pluginName, $error) {
-            printf('<div class="notice notice-error"><p>%1$s: %2$s</p></div>', esc_html($pluginName), esc_html($error));
+    loadTextdomain();
+    if ($error = systemRequirements()) {
+        add_action('admin_init', function () use ($error) {
+            if (current_user_can('activate_plugins')) {
+                $pluginName = plugin_basename(__FILE__);
+                $tag = is_plugin_active_for_network(plugin_basename(__FILE__)) ? 'network_admin_notices' : 'admin_notices';
+                add_action($tag, function () use ($pluginName, $error) {
+                    printf(
+                        '<div class="notice notice-error"><p>' .
+                            /* translators: 1: The plugin name, 2: The error string. */
+                            esc_html__('Plugins: %1$s: %2$s', 'rrze-hello-lenny') .
+                            '</p></div>',
+                        $pluginName,
+                        $error
+                    );
+                });
+            }
         });
         return;
     }
 
-    // Initialize the main plugin class
-    $main = new Main(__FILE__);
-    $main->onLoaded();
+    // Initialize Main class && call onLoaded method.
+    (new Main(__FILE__))->onLoaded();
 }
