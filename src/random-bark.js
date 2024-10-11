@@ -8,16 +8,10 @@ jQuery(document).ready(function($) {
         'wouf-xlarge'
     ];
 
-    function getRandomClasses() {
-        const numClasses = Math.floor(Math.random() * cssClasses.length) + 1;
-        const selectedClasses = [];
-
-        for (let i = 0; i < numClasses; i++) {
-            const randomIndex = Math.floor(Math.random() * cssClasses.length);
-            selectedClasses.push(cssClasses[randomIndex]);
-        }
-
-        return selectedClasses.join(' ');
+    function getRandomClass() {
+        // Randomly select one CSS class
+        const randomIndex = Math.floor(Math.random() * cssClasses.length);
+        return cssClasses[randomIndex];
     }
 
     // Function to append "Wouf!" to the paragraph
@@ -28,8 +22,8 @@ jQuery(document).ready(function($) {
             return; // Exit if the blockquote element is not found
         }
 
-        // Create a new span element with the "Wouf!" text
-        const $span = $('<span>').text('Wouf!').addClass(getRandomClasses());
+        // Create a new span element with the "Wouf!" text and set the class attribute
+        const $span = $('<span>').text('Wouf!').attr('class', getRandomClass());
 
         // Append the new span to the paragraph
         $blockquote.append($span).append(' '); // Add a space after the "Wouf!"

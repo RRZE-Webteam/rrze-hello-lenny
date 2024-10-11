@@ -3,138 +3,120 @@
 namespace RRZE\HelloLenny;
 
 /**
- * Plugin Name: RRZE Hello Lenny
- * Description: A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg block.
- * Version: 1.0
+ * Plugin Name:     RRZE Hello Lenny
+ * Plugin URI:      https://github.com/RRZE-Webteam/rrze-hello-lenny/
+ * Description:     A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg block.
+ * Version:         1.0.0
  * Requires at least: 6.6
  * Requires PHP:      8.2
- * Author:            RRZE-Webteam
- * Author URI:        https://blogs.fau.de/webworking/
- * License:           GNU General Public License v2
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
- * Domain Path:       /languages
- * Text Domain: rrze-hello-lenny
+ * Author:          RRZE Webteam
+ * Author URI:      https://blogs.fau.de/webworking/
+ * License:         GNU General Public License v2
+ * License URI:     http://www.gnu.org/licenses/gpl-2.0.html
+ * Domain Path:     /languages
+ * Text Domain:     rrze-hello-lenny
  */
 
-if (! defined('ABSPATH')) {
-    exit; // Exit if accessed directly.
-}
+defined('ABSPATH') || exit;
 
-add_action('init', __NAMESPACE__ . '\lenny_register_assets');
-add_shortcode('rrze-hello-lenny', __NAMESPACE__ . '\lenny_shortcode');
-add_action('init', __NAMESPACE__ . '\lenny_block_register_block');
-add_action('enqueue_block_assets', __NAMESPACE__ . '\lenny_register_assets');
+// Plugin requirements
+const REQUIRED_PHP_VERSION = '8.2';
+const REQUIRED_WP_VERSION = '6.6';
 
+// Autoload classes
+spl_autoload_register(function ($class) {
+    $prefix = __NAMESPACE__;
+    $base_dir = __DIR__ . '/includes/';
 
-// Register the assets
-function lenny_register_assets() {
-    wp_register_script(
-        'lenny-random-bark',
-        plugins_url('src/random-bark.js', __FILE__),
-        ['jquery'], // Add jQuery as a dependency
-        filemtime(plugin_dir_path(__FILE__) . 'src/random-bark.js'),
-        true
-    );
-
-    wp_register_style(
-        'lenny-block-style',
-        plugins_url('build/frontend.css', __FILE__),
-        [],
-        filemtime(plugin_dir_path(__FILE__) . 'build/frontend.css')
-    );
-}
-
-// Generate the output
-function generate_wuff_output() {
-    $lang = get_bloginfo('language');
-
-    $numWuffs = rand(1, 4);
-
-    $cssClasses = [
-        'wouf-ucfirst',
-        'wouf-uppercase',
-        'wouf-lowercase',
-        'wouf-small',
-        'wouf-large',
-        'wouf-xlarge'
-    ];
-
-    $output = '<blockquote class="rrze-hello-lenny" lang="' . esc_attr($lang) . '"><p>';
-
-    for ($i = 0; $i < $numWuffs; $i++) {
-        $selectedClasses = [];
-        $numClasses = rand(1, count($cssClasses));
-
-        $randomKeys = array_rand($cssClasses, $numClasses);
-        if (is_array($randomKeys)) {
-            foreach ($randomKeys as $key) {
-                $selectedClasses[] = $cssClasses[$key];
-            }
-        } else {
-            $selectedClasses[] = $cssClasses[$randomKeys];
-        }
-
-        $classString = implode(' ', $selectedClasses);
-
-        $output .= '<span class="' . esc_attr($classString) . '">' . esc_html(__('Wouf!', 'rrze-hello-lenny')) . '</span> ';
-        }
-
-    $output .= '</p><cite>&#128054; Lenny</cite></blockquote>';
-
-    return $output;
-}
-
-// Shortcode Functionality for Classic Editor
-function lenny_shortcode()
-{
-    wp_enqueue_script('lenny-random-bark');
-
-    return generate_wuff_output();
-}
-
-// Register Gutenberg Block for Block Editor
-function lenny_block_register_block()
-{
-    load_plugin_textdomain('rrze-hello-lenny', false, dirname(plugin_basename(__FILE__)) . '/languages');
-
-    if (! is_admin()) {
-        wp_register_style(
-            'lenny-block-style',
-            plugins_url('build/frontend.css', __FILE__),
-            [],
-            filemtime(plugin_dir_path(__FILE__) . 'build/frontend.css')
-        );
-    }
-
-    if (! function_exists('register_block_type')) {
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
         return;
     }
 
-    wp_register_script(
-        'lenny-block-editor-script',
-        plugins_url('build/block.js', __FILE__),
-        ['wp-blocks', 'wp-element', 'wp-editor'],
-        filemtime(plugin_dir_path(__FILE__) . 'build/block.js'),
-        true        
-    );
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
 
-    wp_register_style(
-        'lenny-block-editor-style',
-        plugins_url('build/editor.css', __FILE__),
-        [],
-        filemtime(plugin_dir_path(__FILE__) . 'build/editor.css')
-    );
+    if (file_exists($file)) {
+        require $file;
+    }
+});
 
-    register_block_type('lenny/quote-block', [
-        'editor_script' => 'lenny-block-editor-script',
-        'editor_style' => 'lenny-block-editor-style',
-        'style' => 'lenny-block-style',
-        'render_callback' => __NAMESPACE__ . '\lenny_block_render_callback',
-    ]);
+
+// Activation and deactivation hooks
+register_activation_hook(__FILE__, __NAMESPACE__ . '\activate');
+register_deactivation_hook(__FILE__, __NAMESPACE__ . '\deactivate');
+
+// Loaded action hook
+add_action('plugins_loaded', __NAMESPACE__ . '\onLoaded');
+
+/**
+ * Load text domain for translations.
+ */
+function loadTextDomain()
+{
+    load_plugin_textdomain('rrze-hello-lenny', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 
-// Server-side Rendering of the Block
-function lenny_block_render_callback($attributes)
+/**
+ * Check system requirements.
+ */
+function system_requirements()
 {
-    return generate_wuff_output();
+    $error = '';
+    if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<')) {
+        /* translators: 1: current PHP version, 2: required PHP version */
+        $error = sprintf(__('The server is running PHP version %1$s. The Plugin requires at least PHP version %2$s.', 'rrze-typesettings'), PHP_VERSION, RRZE_PHP_VERSION);
+    } elseif (version_compare($GLOBALS['wp_version'], REQUIRED_WP_VERSION, '<')) {
+        /* translators: 1: current WordPress version, 2: required WordPress version */
+        $error = sprintf(__('The server is running WordPress version %1$s. The Plugin requires at least WordPress version %2$s.', 'rrze-typesettings'), $GLOBALS['wp_version'], RRZE_WP_VERSION);
+    }
+    return $error;
+}
+
+/**
+ * Activation hook.
+ */
+function activate()
+{
+    // Load text domain
+    loadTextDomain();
+
+    // Check system requirements
+    if ($error = system_requirements()) {
+        deactivate_plugins(plugin_basename(__FILE__));
+        wp_die(esc_html($error));
+    }
+
+    // Other activation tasks can be added here, e.g., flush rewrite rules
+}
+
+/**
+ * Deactivation hook.
+ */
+function deactivate()
+{
+    // Any deactivation tasks can be added here
+}
+
+/**
+ * Main plugin loaded function.
+ */
+function onLoaded()
+{
+    // Load text domain
+    loadTextDomain();
+
+    // Check system requirements
+    if ($error = system_requirements()) {
+        $pluginName = get_plugin_data(__FILE__)['Name'];
+        $tag = is_network_admin() ? 'network_admin_notices' : 'admin_notices';
+        add_action($tag, function () use ($pluginName, $error) {
+            printf('<div class="notice notice-error"><p>%1$s: %2$s</p></div>', esc_html($pluginName), esc_html($error));
+        });
+        return;
+    }
+
+    // Initialize the main plugin class
+    $main = new Main(__FILE__);
+    $main->onLoaded();
 }
