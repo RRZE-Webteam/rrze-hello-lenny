@@ -19,7 +19,11 @@ class Main
      */
     protected $pluginFile;
 
-    protected $settings;
+    /**
+     * The version of the plugin.
+     * @var string
+     */
+    protected $pluginVersion;    
 
     /**
      * Assign values to variables.
@@ -35,6 +39,8 @@ class Main
      */
     public function onLoaded()
     {
+        $this->setPluginVersion();
+
         add_action('init', [$this, 'registerAssets']);
         add_action('enqueue_block_assets', [$this, 'enqueueAssets']);
 
@@ -46,27 +52,26 @@ class Main
     }
 
     /**
-     * Get the plugin version from the main plugin file.
+     * Set the version of the plugin.
+     * @return string The version of the plugin
      */
-    protected function getPluginVersion()
+    protected function setPluginVersion()
     {
         $pluginData = get_file_data($this->pluginFile, ['Version' => 'Version'], false);
-        return $pluginData['Version'] ?? '1.0.0';
-    }
+        $this->pluginVersion = $pluginData['Version'] ?? '1.0.0';
+    }    
 
     /**
      * Register assets.
      */
     public function registerAssets()
     {
-        $pluginVersion = $this->getPluginVersion();
-
         // Register scripts and styles
         wp_register_script(
             'lenny-random-bark',
             plugins_url('src/js/random-bark.js', plugin_basename($this->pluginFile)),
             ['jquery'],
-            file_exists(plugin_dir_path($this->pluginFile) . 'src/js/random-bark.js') ? filemtime(plugin_dir_path($this->pluginFile) . 'src/js/random-bark.js') : $pluginVersion,
+            filemtime(plugin_dir_path($this->pluginFile) . 'src/js/random-bark.js') ?: $this->pluginVersion,
             true
         );
 
@@ -74,14 +79,14 @@ class Main
             'lenny-frontend-style',
             plugins_url('build/frontend.css', plugin_basename($this->pluginFile)),
             [],
-            file_exists(plugin_dir_path($this->pluginFile) . 'build/frontend.css') ? filemtime(plugin_dir_path($this->pluginFile) . 'build/frontend.css') : $pluginVersion
+            filemtime(plugin_dir_path($this->pluginFile) . 'build/frontend.css') ?: $this->pluginVersion
         );
 
         wp_register_script(
             'lenny-block-editor-script',
             plugins_url('build/block.js', plugin_basename($this->pluginFile)),
             ['wp-blocks', 'wp-element', 'wp-editor'],
-            file_exists(plugin_dir_path($this->pluginFile) . 'build/block.js') ? filemtime(plugin_dir_path($this->pluginFile) . 'build/block.js') : $pluginVersion,
+            filemtime(plugin_dir_path($this->pluginFile) . 'build/block.js') ?: $this->pluginVersion,
             true
         );
 
@@ -89,7 +94,7 @@ class Main
             'lenny-block-editor-style',
             plugins_url('build/editor.css', plugin_basename($this->pluginFile)),
             [],
-            file_exists(plugin_dir_path($this->pluginFile) . 'build/editor.css') ? filemtime(plugin_dir_path($this->pluginFile) . 'build/editor.css') : $pluginVersion
+            filemtime(plugin_dir_path($this->pluginFile) . 'build/editor.css') ?: $this->pluginVersion
         );
     }
 
