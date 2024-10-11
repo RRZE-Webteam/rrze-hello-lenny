@@ -20,16 +20,50 @@ if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
 
+// Generate the output
+function generate_wuff_output() {
+    $lang = get_bloginfo('language');
+
+    $numWuffs = rand(1, 4);
+
+    $cssClasses = [
+        'wuff-ucfirst',
+        'wuff-uppercase',
+        'wuff-lowercase',
+        'wuff-small',
+        'wuff-large',
+        'wuff-xlarge'
+    ];
+
+    $output = '<blockquote class="rrze-hello-lenny" lang="' . esc_attr($lang) . '"><p>';
+
+    for ($i = 0; $i < $numWuffs; $i++) {
+        $selectedClasses = [];
+        $numClasses = rand(1, count($cssClasses));
+
+        $randomKeys = array_rand($cssClasses, $numClasses);
+        if (is_array($randomKeys)) {
+            foreach ($randomKeys as $key) {
+                $selectedClasses[] = $cssClasses[$key];
+            }
+        } else {
+            $selectedClasses[] = $cssClasses[$randomKeys];
+        }
+
+        $classString = implode(' ', $selectedClasses);
+
+        $output .= '<span class="' . esc_attr($classString) . '">' . esc_html(__('Wouf!', 'rrze-hello-lenny')) . '</span> ';
+        }
+
+    $output .= '</p><cite>&#128054; Lenny</cite></blockquote>';
+
+    return $output;
+}
+
 // Shortcode Functionality for Classic Editor
 function lenny_shortcode()
 {
-    $quote = esc_html__('Wouf!', 'rrze-hello-lenny');
-    return '<blockquote class="rrze-hello-lenny shortcode" lang="de">
-                <p>
-                    <span class="wuff-ucfirst">' . $quote . '</span> <span class="wuff-ucfirst wuff-uppercase">' . $quote . '</span>
-                </p>
-                <cite>&#128054; Lenny</cite>
-            </blockquote>';
+    return generate_wuff_output();
 }
 add_shortcode('lenny_quote', __NAMESPACE__ . '\lenny_shortcode');
 
@@ -78,11 +112,5 @@ add_action('init', __NAMESPACE__ . '\lenny_block_register_block');
 // Server-side Rendering of the Block
 function lenny_block_render_callback($attributes)
 {
-    $quote = esc_html__('Wouf!', 'rrze-hello-lenny');
-    return '<blockquote class="rrze-hello-lenny shortcode" lang="de">
-                <p>
-                    <span class="wuff-ucfirst">' . $quote . '</span> <span class="wuff-ucfirst wuff-uppercase">' . $quote . '</span>
-                </p>
-                <cite>&#128054; Lenny</cite>
-            </blockquote>';
+    return generate_wuff_output();
 }
