@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RRZE Hello Lenny\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-10-11 06:56+0000\n"
+"PO-Revision-Date: 2024-10-11 06:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: German (Formal)\n"
+"Language: de_DE_formal\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.11; wp-6.6.2\n"
+"X-Domain: rrze-hello-lenny"
+
+#. Description of the plugin
+msgid ""
+"A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg "
+"block."
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://blogs.fau.de/webworking/"
+msgstr ""
+
+#. Name of the plugin
+msgid "RRZE Hello Lenny"
+msgstr ""
+
+#. Author of the plugin
+msgid "RRZE-Webteam"
+msgstr ""
+
+#: rrze-hello-lenny.php:26 rrze-hello-lenny.php:81
+msgid "Wouf!"
+msgstr "Wuff!"
