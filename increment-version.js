@@ -59,14 +59,26 @@ try {
     process.exit(1);
 }
 
-// Update Stable tag in README.md
-if (fs.existsSync(readmePath)) {
-    updateVersionInFile(readmePath, `Stable tag: ${oldVersion}`, `Stable tag: ${newVersion}`);
+try {
+    // Update Stable tag in README.md
+    if (fs.existsSync(readmePath)) {
+        updateVersionInFile(readmePath, `Stable tag: ${oldVersion}`, `Stable tag: ${newVersion}`);
+    } else {
+        console.warn(`File ${readmePath} not found.`);
+    }
+} catch (error) {
+    console.error(`Error updating version in file ${readmePath}:`, error);
 }
 
-// Update version in rrze-hello-lenny.php
-if (fs.existsSync(pluginFilePath)) {
-    updateVersionInFile(pluginFilePath, `Version: ${oldVersion}`, `Version: ${newVersion}`);
+try {
+    // Update version in PLUGIN-NAME.php
+    if (fs.existsSync(pluginFilePath)) {
+        updateVersionInFile(pluginFilePath, `Version: ${oldVersion}`, `Version: ${newVersion}`);
+    } else {
+        console.warn(`File ${pluginFilePath} not found.`);
+    }
+} catch (error) {
+    console.error(`Error updating version in file ${pluginFilePath}:`, error);
 }
 
 console.log(`Version successfully updated to ${newVersion}`);
