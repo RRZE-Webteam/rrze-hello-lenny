@@ -6,7 +6,7 @@ namespace RRZE\HelloLenny;
  * Plugin Name:     RRZE Hello Lenny
  * Plugin URI:      https://github.com/RRZE-Webteam/rrze-hello-lenny/
  * Description:     A plugin inspired by Hello Dolly, using both a shortcode and a Gutenberg block.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Requires at least: 6.6
  * Requires PHP:      8.2
  * Author:          RRZE Webteam
@@ -93,7 +93,7 @@ function systemRequirements(): string
 /**
  * Activation hook.
  */
-function activation()
+function activate()
 {
     loadTextdomain();
     if ($error = systemRequirements()) {
