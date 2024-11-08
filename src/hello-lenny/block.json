@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "rrze/hello-lenny",
+	"version": "0.1.0",
+	"title": "Hello Lenny",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "Example block scaffolded with Create Block tool.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"cssClasses": {
+			"type": "string",
+			"default": ""
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"borderColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#000000"
+		}
+	},
+	"textdomain": "rrze-hello-lenny",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "lenny-random-bark"
+}
