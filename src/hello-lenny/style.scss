@@ -1,4 +1,11 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
 .rrze-hello-lenny {
+    padding: 1rem 2rem;
     &.shortcode {
         border-style: solid;
     }
@@ -21,12 +28,15 @@
         text-transform: uppercase;
     }
     .wouf-small {
-        font-size: 0.8rem;
+        font-size: 1rem;
+        padding: 1rem;
     }
     .wouf-large {
-        font-size: 1.5rem;
+        font-size: 2.5rem;
+        padding: 2.5rem;
     }
     .wouf-xlarge {
-        font-size: 2rem;
+        font-size: 4rem;
+        padding: 4rem;
     }
 }

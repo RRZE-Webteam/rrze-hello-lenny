@@ -6,7 +6,6 @@ defined('ABSPATH') || exit;
 
 class Shortcode
 {
-
     protected $defaultAttributes;
 
     public function __construct($defaultAttributes)
@@ -20,29 +19,25 @@ class Shortcode
         // Merge user-provided attributes with default values
         $attributes = shortcode_atts($this->defaultAttributes, $attributes);
 
-
         // Sanitize parameters
         $attributes['css_classes'] = sanitize_text_field($attributes['css_classes']);
-        $attributes['background_color'] = sanitize_text_field($attributes['background_color']);
-        $attributes['border_color'] = sanitize_text_field($attributes['border_color']);
-
-        //         echo '<pre>';
-        // var_dump($attributes);
-        // exit;
+        $attributes['background_color'] = sanitize_hex_color($attributes['background_color']);
+        $attributes['border_color'] = sanitize_hex_color($attributes['border_color']);
+        $attributes['text_color'] = sanitize_hex_color($attributes['text_color']);
 
         // Enqueue assets
         wp_enqueue_style('lenny-frontend-style');
         wp_enqueue_script('lenny-random-bark');
 
         // Generate the output
-        return $this->generateWuffOutput($attributes);
+        return self::generateWuffOutput($attributes);
     }
 
     public static function generateWuffOutput($attributes)
     {
         $lang = get_bloginfo('language');
         $numWuffs = rand(1, 4);
-    
+
         $cssClasses = [
             'wouf-ucfirst',
             'wouf-uppercase',
@@ -51,27 +46,33 @@ class Shortcode
             'wouf-large',
             'wouf-xlarge'
         ];
-    
+
         // Add custom CSS classes
         $customClasses = !empty($attributes['css_classes']) ? esc_attr($attributes['css_classes']) : '';
-    
+
         // Create the blockquote with custom styles
         $style = sprintf(
-            'background-color: %s; border-color: %s;',
+            'background-color: %s; border-color: %s; color: %s;',
             esc_attr($attributes['background_color']),
-            esc_attr($attributes['border_color'])
+            esc_attr($attributes['border_color']),
+            esc_attr($attributes['text_color'])
         );
-    
-        $output = sprintf('<blockquote class="rrze-hello-lenny %s" lang="%s" style="%s"><p>', $customClasses, esc_attr($lang), $style);
-    
+
+        $output = sprintf(
+            '<blockquote class="rrze-hello-lenny %s" lang="%s" style="%s"><p>',
+            $customClasses,
+            esc_attr($lang),
+            $style
+        );
+
         for ($i = 0; $i < $numWuffs; $i++) {
             $randomIndex = array_rand($cssClasses);
             $classString = $cssClasses[$randomIndex];
-            $output .= '<span class="' . esc_attr($classString) . '">' . esc_html(__('Wouf!', 'rrze-hello-lenny')) . '</span> ';
+            $output .= '<span class="' . esc_attr($classString) . '">' . esc_html__('Wouf!', 'rrze-hello-lenny') . '</span> ';
         }
-    
+
         $output .= '</p><cite>&#128054; Lenny</cite></blockquote>';
-    
+
         return $output;
     }
-    }
+}

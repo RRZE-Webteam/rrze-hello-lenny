@@ -19,6 +19,7 @@ class Config
             'css_classes' => '',
             'background_color' => '#ffffff',
             'border_color' => '#000000',
+            'text_color' => '#000000'
         ];
     }
 }

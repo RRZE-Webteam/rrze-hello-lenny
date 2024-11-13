@@ -1,13 +1,16 @@
 {
   "name": "rrze-hello-lenny",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "main": "build/index.js",
   "scripts": {
-    "build-css": "node-sass --output-style compressed src/sass/ -o build/",
-    "watch-css": "node-sass --watch src/sass/ -o build/",
+    "build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start",
     "increment-version": "node increment-version.js patch",
-    "build": "npm run increment-version && npm run build-css && wp-scripts build",
-    "start": "npm run watch-css && wp-scripts start",
     "precommit": "npm run increment-version"
   },
   "devDependencies": {
